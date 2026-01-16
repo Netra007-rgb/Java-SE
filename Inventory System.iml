@@ -1,6 +1,227 @@
+import java.util.Scanner;
+import java.time.LocalDateTime;
 
-psvm()
-{
-  sop("hello");
+//-------------------- Station Class --------------------//
+class DeliveryStation {
+    String stationName;
+    String location;
+    String managerName;
+    String contactNumber;
+
+    DeliveryStation(String stationName, String location, String managerName, String contactNumber) {
+        this.stationName = stationName;
+        this.location = location;
+        this.managerName = managerName;
+        this.contactNumber = contactNumber;
+    }
+
+    void displayStation() {
+        System.out.println("Station: " + stationName);
+        System.out.println("Location: " + location);
+        System.out.println("Manager: " + managerName);
+        System.out.println("Contact: " + contactNumber);
+    }
 }
 
+//-------------------- Package Class --------------------//
+class PackageInfo {
+    String packageId;
+    String customerName;
+    String address;
+    String itemName;
+    String packagingStatus;   // Pending, Packed, Dispatched
+    String deliveryStatus;    // In Transit, Arrived, Delivered
+    DeliveryStation station;  // which station it is at
+    LocalDateTime dateTime;   // time of last update
+
+    PackageInfo(String packageId, String customerName, String address, String itemName, DeliveryStation station) {
+        this.packageId = packageId;
+        this.customerName = customerName;
+        this.address = address;
+        this.itemName = itemName;
+        this.station = station;
+        this.packagingStatus = "Pending";
+        this.deliveryStatus = "In Transit";
+        this.dateTime = LocalDateTime.now();
+    }
+
+    // Update packaging status
+    void updatePackagingStatus(String newStatus) {
+        if (newStatus.equalsIgnoreCase("Packed") || newStatus.equalsIgnoreCase("Dispatched")) {
+            this.packagingStatus = newStatus;
+            this.dateTime = LocalDateTime.now();
+            System.out.println("Packaging status updated successfully!");
+        } else {
+            System.out.println("Invalid packaging status! Only 'Packed' or 'Dispatched' allowed.");
+        }
+    }
+
+    // Update delivery status and station
+    void updateDeliveryStatus(String newStatus, DeliveryStation newStation) {
+        this.deliveryStatus = newStatus;
+        this.station = newStation;
+        this.dateTime = LocalDateTime.now();
+        System.out.println("Delivery status updated successfully!");
+    }
+
+    // Print packaging slip
+    void printSlip() {
+        System.out.println("\n----- PACKAGING SLIP -----");
+        System.out.println("Package ID: " + packageId);
+        System.out.println("Customer: " + customerName);
+        System.out.println("Address: " + address);
+        System.out.println("Item: " + itemName);
+        System.out.println("Packaging Status: " + packagingStatus);
+        System.out.println("Delivery Status: " + deliveryStatus);
+        System.out.println("Current Station: " + station.stationName);
+        System.out.println("Last Updated: " + dateTime);
+        System.out.println("--------------------------\n");
+    }
+}
+
+//-------------------- Main System --------------------//
+class CombinedPackagingAndDeliverySystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Default stations
+        DeliveryStation[] stations = {
+                new DeliveryStation("Jammu & Kashmir", "Srinagar", "Amit Dar", "9876543210"),
+                new DeliveryStation("Delhi", "Chandni Chowk", "Kamal Sharma", "9988776655"),
+                new DeliveryStation("Ahmedabad", "C.G.Road", "Lokesh Shah", "8270779558"),
+                new DeliveryStation("Kolkata", "Park Street", "Ishaan Chatterjee", "7086977221"),
+                new DeliveryStation("Bangalore", "Indiranagar", "Dhanush Gowda", "9857974212")
+        };
+
+        PackageInfo[] packages = new PackageInfo[10];
+        int count = 0;
+        int choice;
+
+        do {
+            System.out.println("\n===== CLOTH PACKAGING & DELIVERY SYSTEM =====");
+            System.out.println("1. Add New Package");
+            System.out.println("2. Update Packaging Status");
+            System.out.println("3. Update Delivery Status & Station");
+            System.out.println("4. Print Packaging Slip");
+            System.out.println("5. Track Package by ID");
+            System.out.println("6. View All Packages");
+            System.out.println("7. View Station Details");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    if (count < packages.length) {
+                        System.out.print("Enter Package ID: ");
+                        String id = sc.nextLine();
+                        System.out.print("Enter Customer Name: ");
+                        String name = sc.nextLine();
+                        System.out.print("Enter Address: ");
+                        String addr = sc.nextLine();
+                        System.out.print("Enter Item Name: ");
+                        String item = sc.nextLine();
+
+                        packages[count] = new PackageInfo(id, name, addr, item, stations[0]);
+                        count++;
+                        System.out.println("Package added successfully and assigned to Station A (In Transit).");
+                    } else {
+                        System.out.println("No more packages can be added.");
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter Package ID to update packaging status: ");
+                    String pid = sc.nextLine();
+                    boolean found1 = false;
+                    for (int i = 0; i < count; i++) {
+                        if (packages[i].packageId.equalsIgnoreCase(pid)) {
+                            System.out.print("Enter new status (Packed / Dispatched): ");
+                            String newStatus = sc.nextLine();
+                            packages[i].updatePackagingStatus(newStatus);
+                            found1 = true;
+                            break;
+                        }
+                    }
+                    if (!found1) System.out.println("Package not found!");
+                    break;
+
+                case 3:
+                    System.out.print("Enter Package ID to update delivery status: ");
+                    String did = sc.nextLine();
+                    boolean found2 = false;
+                    for (int i = 0; i < count; i++) {
+                        if (packages[i].packageId.equalsIgnoreCase(did)) {
+                            System.out.println("Select New Station:");
+                            for (int s = 0; s < stations.length; s++) {
+                                System.out.println((s + 1) + ". " + stations[s].stationName);
+                            }
+                            int st = sc.nextInt();
+                            sc.nextLine();
+                            System.out.print("Enter new status (In Transit / Arrived / Delivered): ");
+                            String newDelStatus = sc.nextLine();
+                            packages[i].updateDeliveryStatus(newDelStatus, stations[st - 1]);
+                            found2 = true;
+                            break;
+                        }
+                    }
+                    if (!found2) System.out.println("Package not found!");
+                    break;
+
+                case 4:
+                    System.out.print("Enter Package ID to print slip: ");
+                    String slipId = sc.nextLine();
+                    boolean found3 = false;
+                    for (int i = 0; i < count; i++) {
+                        if (packages[i].packageId.equalsIgnoreCase(slipId)) {
+                            packages[i].printSlip();
+                            found3 = true;
+                            break;
+                        }
+                    }
+                    if (!found3) System.out.println("Package not found!");
+                    break;
+
+                case 5:
+                    System.out.print("Enter Package ID to track: ");
+                    String tid = sc.nextLine();
+                    boolean found4 = false;
+                    for (int i = 0; i < count; i++) {
+                        if (packages[i].packageId.equalsIgnoreCase(tid)) {
+                            packages[i].printSlip();
+                            found4 = true;
+                            break;
+                        }
+                    }
+                    if (!found4) System.out.println("Package not found!");
+                    break;
+
+                case 6:
+                    System.out.println("\n=== All Packages ===");
+                    for (int i = 0; i < count; i++) {
+                        packages[i].printSlip();
+                    }
+                    break;
+
+                case 7:
+                    System.out.println("\n=== Station Details ===");
+                    for (int i = 0; i < stations.length; i++) {
+                        System.out.println("\nStation " + (i + 1));
+                        stations[i].displayStation();
+                    }
+                    break;
+
+                case 0:
+                    System.out.println("Exiting... Thank you!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 0);
+
+        sc.close();
+    }
+}
