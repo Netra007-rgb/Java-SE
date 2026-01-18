@@ -225,4 +225,177 @@ class CombinedPackagingAndDeliverySystem {
         sc.close();
     }
 }
+//Netra's Project
+//1).Sales Report
+//2).Customer Feedback
+//Code Execution:-
+ import java.util.*;
+class Product {
+    int productId;
+    String productName;
+    int quantity;
+    double price;
+
+    // Constructor
+    Product(int id, String name, int qty, double price) {
+        productId = id;
+        productName = name;
+        quantity = qty;
+        this.price = price;
+    }
+
+    void displayProduct() {
+        System.out.println(productId + "  " + productName + "  Qty: " + quantity + "  Price: " + price);
+    }
+}
+class Sale extends Product {
+    int soldQty;
+    double totalAmount;
+
+    // Constructor using super keyword
+    Sale(int id, String name, int qty, double price, int soldQty) {
+        super(id, name, qty, price);
+        this.soldQty = soldQty;
+        totalAmount = soldQty * price;
+    }
+
+    void displaySale() {
+        System.out.println("Product: " + productName);
+        System.out.println("Quantity Sold: " + soldQty);
+        System.out.println("Total Amount: " + totalAmount);
+    }
+}
+/*class Sale1 extends Product {
+    int soldQty;
+    double totalAmount;
+
+    // Constructor using super keyword
+    Sale1(int id, String name, int qty, double price, int soldQty) {
+        super(id, name, qty, price);
+        this.soldQty = soldQty;
+        totalAmount = soldQty * price;
+    }
+
+    void displaySale() {
+        System.out.println("Product: " + productName);
+        System.out.println("Quantity Sold: " + soldQty);
+        System.out.println("Total Amount: " + totalAmount);
+    }
+}*/
+class Feedback {
+    String customerName;
+    String comment;
+    int rating;
+
+    // Constructor
+    Feedback(String name, String comment, int rating) {
+        customerName = name;
+        this.comment = comment;
+        this.rating = rating;
+    }
+
+    void displayFeedback() {
+        System.out.println("Customer: " + customerName);
+        System.out.println("Rating: " + rating + "/5");
+        System.out.println("Comment: " + comment);
+    }
+}
+ class InventorySystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the ID for the product.");
+        int num1=sc.nextInt();
+        sc.nextLine();
+        System.out.println("Enter the product based on the ID.");
+        String name1=sc.nextLine();
+        System.out.println("Enter the quantity of the product.");
+        int quantity=sc.nextInt();
+        System.out.println("Enter the price of the product");
+        double prc=sc.nextDouble();
+
+        // Fixed data (simple)
+        Product product = new Product(num1, name1, quantity, prc);
+        Feedback feedback = null;
+
+        int choice;
+
+        do {
+            System.out.println("\n--- INVENTORY SYSTEM ---");
+            System.out.println("1. View Product");
+            System.out.println("2. Make Sale");
+            System.out.println("3. Give Feedback");
+            System.out.println("4. View Feedback");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    product.displayProduct();
+                    break;
+
+                case 2:
+                    System.out.print("Enter quantity to sell: ");
+                    int qty = sc.nextInt();
+
+                    if (qty <= product.quantity) {
+                        Sale sale = new Sale(
+                                product.productId,
+                                product.productName,
+                                product.quantity,
+                                product.price,
+                                qty
+                        );
+                        /*Sale1 sale1 = new Sale1(
+                                product.productId,
+                                product.productName,
+                                product.quantity,
+                                product.price,
+                                qty
+                        );*/
+
+                        product.quantity -= qty; // update stock
+                        sale.displaySale();
+                       // sale1.displaySale();
+                    } else {
+                        System.out.println("Not enough stock!");
+                    }
+                    break;
+
+                case 3:
+                    sc.nextLine(); // clear buffer
+                    System.out.print("Customer Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Comment: ");
+                    String comment = sc.nextLine();
+                    System.out.print("Rating (1-5): ");
+                    int rating = sc.nextInt();
+
+                    feedback = new Feedback(name, comment, rating);
+                    System.out.println("Feedback saved!");
+                    break;
+
+                case 4:
+                    if (feedback != null) {
+                        feedback.displayFeedback();
+                    } else {
+                        System.out.println("No feedback available.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Thank you! Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
 
