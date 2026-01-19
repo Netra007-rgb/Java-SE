@@ -760,3 +760,191 @@ class InventoryManagementSystem {
     }
 }
 
+//NAITREE'S CODE------
+import java.util.Scanner;
+
+class Product {
+    private int productId;
+    private String name;
+    private double price;
+    private int stock;
+
+    public Product(int productId, String name, double price, int stock) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+    }
+
+    // Getters
+    public int getProductId() {
+        return productId;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    // Stock operations
+    public void addStock(int quantity) {
+        stock += quantity;
+    }
+
+    public boolean reduceStock(int quantity) {
+        if (stock >= quantity) {
+            stock -= quantity;
+            return true;
+        }
+        return false;
+    }
+
+    public void display() {
+        System.out.println(productId + " | " + name +
+                " | Price: ₹" + price +
+                " | Stock: " + stock);
+    }
+}
+class Clothing extends Product {
+    private String size;
+    private String category; // Shirt, Jeans, Jacket, etc.
+
+    public Clothing(int productId, String name, double price, int stock,
+                    String size, String category) {
+        super(productId, name, price, stock);
+        this.size = size;
+        this.category = category;
+    }
+
+    @Override
+    public void display() {
+        super.display();
+        System.out.println("    Category: " + category + ", Size: " + size);
+    }
+}
+class Inventory {
+    private Product[] products;
+    private int count;
+
+    public Inventory() {
+        products = new Product[40];
+        count = 0;
+
+        // Gen-Z Trendy Clothing Stock
+        products[count++] = new Clothing(101, "Oversized T-Shirt", 699, 40, "L", "T-Shirt");
+        products[count++] = new Clothing(102, "Graphic Tee", 799, 35, "M", "T-Shirt");
+        products[count++] = new Clothing(103, "Cargo Pants", 1799, 20, "32", "Pants");
+        products[count++] = new Clothing(104, "Baggy Jeans", 1999, 18, "34", "Jeans");
+        products[count++] = new Clothing(105, "Streetwear Hoodie", 2499, 15, "XL", "Hoodie");
+        products[count++] = new Clothing(106, "Crop Hoodie", 1899, 22, "M", "Hoodie");
+        products[count++] = new Clothing(107, "Varsity Jacket", 2999, 10, "L", "Jacket");
+        products[count++] = new Clothing(108, "Puffer Jacket", 3499, 8, "XL", "Jacket");
+        products[count++] = new Clothing(109, "Ripped Jeans", 1899, 17, "32", "Jeans");
+        products[count++] = new Clothing(110, "Wide Leg Pants", 1699, 25, "M", "Pants");
+
+        products[count++] = new Clothing(111, "Anime Print Tee", 899, 30, "L", "T-Shirt");
+        products[count++] = new Clothing(112, "Y2K Top", 1299, 28, "S", "Top");
+        products[count++] = new Clothing(113, "Denim Jacket", 2799, 12, "L", "Jacket");
+        products[count++] = new Clothing(114, "Fitted Shirt", 1499, 20, "M", "Shirt");
+        products[count++] = new Clothing(115, "Flared Pants", 1899, 14, "32", "Pants");
+        products[count++] = new Clothing(116, "Sleeveless Tank", 599, 45, "M", "Top");
+        products[count++] = new Clothing(117, "Oversized Sweater", 2199, 16, "XL", "Sweater");
+        products[count++] = new Clothing(118, "Korean Style Shirt", 1599, 22, "M", "Shirt");
+        products[count++] = new Clothing(119, "Denim Skirt", 1399, 19, "S", "Skirt");
+        products[count++] = new Clothing(120, "Cargo Skirt", 1499, 18, "M", "Skirt");
+
+        products[count++] = new Clothing(121, "Tie-Dye T-Shirt", 899, 27, "L", "T-Shirt");
+        products[count++] = new Clothing(122, "Minimalist Hoodie", 2299, 13, "XL", "Hoodie");
+        products[count++] = new Clothing(123, "Techwear Pants", 2599, 11, "34", "Pants");
+        products[count++] = new Clothing(124, "Layered Necklace Tee", 999, 24, "M", "T-Shirt");
+        products[count++] = new Clothing(125, "Denim Co-ord Set", 3299, 9, "M", "Co-ord");
+        products[count++] = new Clothing(126, "Printed Kurti", 1799, 21, "L", "Ethnic Wear");
+        products[count++] = new Clothing(127, "Oversized Blazer", 2899, 14, "L", "Blazer");
+        products[count++] = new Clothing(128, "Mesh Top", 1199, 26, "S", "Top");
+        products[count++] = new Clothing(129, "Street Joggers", 1599, 23, "M", "Joggers");
+        products[count++] = new Clothing(130, "Denim Overalls", 2699, 10, "M", "Overalls");
+    }
+
+    public void showInventory() {
+        System.out.println("\n--- Clothing Store Inventory ---");
+        for (int i = 0; i < count; i++) {
+            products[i].display();
+        }
+    }
+
+    public Product findProduct(int productId) {
+        for (int i = 0; i < count; i++) {
+            if (products[i].getProductId() == productId) {
+                return products[i];
+            }
+        }
+        return null;
+    }
+}
+class Order {
+    public void placeOrder(Product product, int quantity) {
+        if (product.reduceStock(quantity)) {
+            double total = product.getPrice() * quantity;
+            System.out.println("Order placed successfully!");
+            System.out.println("Quantity Ordered: " + quantity);
+            System.out.println("Total Amount: ₹" + total);
+        } else {
+            System.out.println("Order failed: Insufficient stock.");
+        }
+    }
+}
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        Inventory inventory = new Inventory();
+        Order order = new Order();
+
+        while (true) {
+            System.out.println("\n===== CLOTHING STORE MENU =====");
+            System.out.println("1. Show Inventory");
+            System.out.println("2. Order Product");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    inventory.showInventory();
+                    break;
+
+                case 2:
+                    System.out.print("Enter Product ID: ");
+                    int prodId = sc.nextInt();
+
+                    Product selectedProduct = inventory.findProduct(prodId);
+
+                    if (selectedProduct == null) {
+                        System.out.println("❌ Product not found.");
+                        break;
+                    }
+
+                    System.out.print("Enter Quantity: ");
+                    int quantity = sc.nextInt();
+
+                    order.placeOrder(selectedProduct, quantity);
+                    break;
+
+                case 3:
+                    System.out.println("Thank you for shopping with us!");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("❌ Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+
