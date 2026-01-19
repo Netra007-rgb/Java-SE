@@ -245,7 +245,8 @@ class Product {
     }
 
     void displayProduct() {
-        System.out.println(productId + "  " + productName + "  Qty: " + quantity + "  Price: " + price);
+       System.out.printf("%-5s %-15s %-5s %-8s%n", "Id", "Product", "Qty", "Price");
+        System.out.printf("%-5d %-15s %-5d %-8.2f%n",productId, productName, quantity, price);
     }
 }
 class Sale extends Product {
@@ -758,3 +759,4 @@ class InventoryManagementSystem {
         sc.close();
     }
 }
+
