@@ -739,11 +739,38 @@ class Inventory {
         products = new Product[40];
         count = 0;
 
-        products[count++] = new Clothing(101, "Oversized T-Shirt", 699, 40, "L", "T-Shirt");
-        products[count++] = new Clothing(102, "Cargo Pants", 1799, 20, "32", "Pants");
-        products[count++] = new Clothing(103, "Streetwear Hoodie", 2499, 15, "XL", "Hoodie");
-        products[count++] = new Clothing(104, "Denim Jacket", 2799, 12, "L", "Jacket");
-        products[count++] = new Clothing(105, "Baggy Jeans", 1999, 18, "34", "Jeans");
+            products[count++] = new Clothing(101, "Oversized T-Shirt", 699, 40, "L", "T-Shirt");
+        products[count++] = new Clothing(102, "Graphic Tee", 799, 35, "M", "T-Shirt");
+        products[count++] = new Clothing(103, "Cargo Pants", 1799, 20, "32", "Pants");
+        products[count++] = new Clothing(104, "Baggy Jeans", 1999, 18, "34", "Jeans");
+        products[count++] = new Clothing(105, "Streetwear Hoodie", 2499, 15, "XL", "Hoodie");
+        products[count++] = new Clothing(106, "Crop Hoodie", 1899, 22, "M", "Hoodie");
+        products[count++] = new Clothing(107, "Varsity Jacket", 2999, 10, "L", "Jacket");
+        products[count++] = new Clothing(108, "Puffer Jacket", 3499, 8, "XL", "Jacket");
+        products[count++] = new Clothing(109, "Ripped Jeans", 1899, 17, "32", "Jeans");
+        products[count++] = new Clothing(110, "Wide Leg Pants", 1699, 25, "M", "Pants");
+
+        products[count++] = new Clothing(111, "Anime Print Tee", 899, 30, "L", "T-Shirt");
+        products[count++] = new Clothing(112, "Y2K Top", 1299, 28, "S", "Top");
+        products[count++] = new Clothing(113, "Denim Jacket", 2799, 12, "L", "Jacket");
+        products[count++] = new Clothing(114, "Fitted Shirt", 1499, 20, "M", "Shirt");
+        products[count++] = new Clothing(115, "Flared Pants", 1899, 14, "32", "Pants");
+        products[count++] = new Clothing(116, "Sleeveless Tank", 599, 45, "M", "Top");
+        products[count++] = new Clothing(117, "Oversized Sweater", 2199, 16, "XL", "Sweater");
+        products[count++] = new Clothing(118, "Korean Style Shirt", 1599, 22, "M", "Shirt");
+        products[count++] = new Clothing(119, "Denim Skirt", 1399, 19, "S", "Skirt");
+        products[count++] = new Clothing(120, "Cargo Skirt", 1499, 18, "M", "Skirt");
+
+        products[count++] = new Clothing(121, "Tie-Dye T-Shirt", 899, 27, "L", "T-Shirt");
+        products[count++] = new Clothing(122, "Minimalist Hoodie", 2299, 13, "XL", "Hoodie");
+        products[count++] = new Clothing(123, "Techwear Pants", 2599, 11, "34", "Pants");
+        products[count++] = new Clothing(124, "Layered Necklace Tee", 999, 24, "M", "T-Shirt");
+        products[count++] = new Clothing(125, "Denim Co-ord Set", 3299, 9, "M", "Co-ord");
+        products[count++] = new Clothing(126, "Printed Kurti", 1799, 21, "L", "Ethnic Wear");
+        products[count++] = new Clothing(127, "Oversized Blazer", 2899, 14, "L", "Blazer");
+        products[count++] = new Clothing(128, "Mesh Top", 1199, 26, "S", "Top");
+        products[count++] = new Clothing(129, "Street Joggers", 1599, 23, "M", "Joggers");
+        products[count++] = new Clothing(130, "Denim Overalls", 2699, 10, "M", "Overalls");
     }
 
     public void showInventory() {
@@ -1028,3 +1055,4 @@ public class InventoryManagementSystem {
         sc.close();
     }
 }
+
