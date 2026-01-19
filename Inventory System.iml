@@ -421,7 +421,7 @@ class Inventory {
         products = new Product[40];
         count = 0;
 
-        // Gen-Z Trendy Clothing Stock
+        // Clothing Stock
         products[count++] = new Clothing(101, "Oversized T-Shirt", 699, 40, "L", "T-Shirt");
         products[count++] = new Clothing(102, "Graphic Tee", 799, 35, "M", "T-Shirt");
         products[count++] = new Clothing(103, "Cargo Pants", 1799, 20, "32", "Pants");
@@ -984,3 +984,4 @@ public class CombinedInventoryManagementSystem {
         sc.close();
     }
 }
+
