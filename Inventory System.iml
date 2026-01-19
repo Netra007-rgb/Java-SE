@@ -399,3 +399,362 @@ class Feedback {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+import java.util.*;
+import java.time.LocalDateTime;
+
+//-------------------- Station Class --------------------//
+class DeliveryStation {
+    String stationName;
+    String location;
+    String managerName;
+    String contactNumber;
+
+    DeliveryStation(String stationName, String location, String managerName, String contactNumber) {
+        this.stationName = stationName;
+        this.location = location;
+        this.managerName = managerName;
+        this.contactNumber = contactNumber;
+    }
+
+    void displayStation() {
+        System.out.println("Station: " + stationName);
+        System.out.println("Location: " + location);
+        System.out.println("Manager: " + managerName);
+        System.out.println("Contact: " + contactNumber);
+    }
+}
+
+//-------------------- Package Class --------------------//
+class PackageInfo {
+    String packageId;
+    String customerName;
+    String address;
+    String itemName;
+    String packagingStatus;   // Pending, Packed, Dispatched
+    String deliveryStatus;    // In Transit, Arrived, Delivered
+    DeliveryStation station;  // which station it is at
+    LocalDateTime dateTime;   // time of last update
+
+    PackageInfo(String packageId, String customerName, String address, String itemName, DeliveryStation station) {
+        this.packageId = packageId;
+        this.customerName = customerName;
+        this.address = address;
+        this.itemName = itemName;
+        this.station = station;
+        this.packagingStatus = "Pending";
+        this.deliveryStatus = "In Transit";
+        this.dateTime = LocalDateTime.now();
+    }
+
+    void updatePackagingStatus(String newStatus) {
+        if (newStatus.equalsIgnoreCase("Packed") || newStatus.equalsIgnoreCase("Dispatched")) {
+            this.packagingStatus = newStatus;
+            this.dateTime = LocalDateTime.now();
+            System.out.println("Packaging status updated successfully!");
+        } else {
+            System.out.println("Invalid packaging status! Only 'Packed' or 'Dispatched' allowed.");
+        }
+    }
+
+    void updateDeliveryStatus(String newStatus, DeliveryStation newStation) {
+        this.deliveryStatus = newStatus;
+        this.station = newStation;
+        this.dateTime = LocalDateTime.now();
+        System.out.println("Delivery status updated successfully!");
+    }
+
+    void printSlip() {
+        System.out.println("\n----- PACKAGING SLIP -----");
+        System.out.println("Package ID: " + packageId);
+        System.out.println("Customer: " + customerName);
+        System.out.println("Address: " + address);
+        System.out.println("Item: " + itemName);
+        System.out.println("Packaging Status: " + packagingStatus);
+        System.out.println("Delivery Status: " + deliveryStatus);
+        System.out.println("Current Station: " + station.stationName);
+        System.out.println("Last Updated: " + dateTime);
+        System.out.println("--------------------------\n");
+    }
+}
+
+//-------------------- Product Class --------------------//
+class Product {
+    int productId;
+    String productName;
+    int quantity;
+    double price;
+
+    Product(int id, String name, int qty, double price) {
+        productId = id;
+        productName = name;
+        quantity = qty;
+        this.price = price;
+    }
+
+    void displayProduct() {
+        System.out.println(productId + "  " + productName + "  Qty: " + quantity + "  Price: " + price);
+    }
+}
+
+//-------------------- Sale Class --------------------//
+class Sale extends Product {
+    int soldQty;
+    double totalAmount;
+
+    Sale(int id, String name, int qty, double price, int soldQty) {
+        super(id, name, qty, price);
+        this.soldQty = soldQty;
+        totalAmount = soldQty * price;
+    }
+
+    void displaySale() {
+        System.out.println("Product: " + productName);
+        System.out.println("Quantity Sold: " + soldQty);
+        System.out.println("Total Amount: " + totalAmount);
+    }
+}
+
+//-------------------- Feedback Class --------------------//
+class Feedback {
+    String customerName;
+    String comment;
+    int rating;
+
+    Feedback(String name, String comment, int rating) {
+        customerName = name;
+        this.comment = comment;
+        this.rating = rating;
+    }
+
+    void displayFeedback() {
+        System.out.println("Customer: " + customerName);
+        System.out.println("Rating: " + rating + "/5");
+        System.out.println("Comment: " + comment);
+    }
+}
+
+//-------------------- Main Combined System --------------------//
+class InventoryManagementSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Product product = null;
+        Feedback feedback = null;
+
+        // Default stations
+        DeliveryStation[] stations = {
+                new DeliveryStation("Jammu & Kashmir", "Srinagar", "Amit Dar", "9876543210"),
+                new DeliveryStation("Delhi", "Chandni Chowk", "Kamal Sharma", "9988776655"),
+                new DeliveryStation("Ahmedabad", "C.G.Road", "Lokesh Shah", "8270779558"),
+                new DeliveryStation("Kolkata", "Park Street", "Ishaan Chatterjee", "7086977221"),
+                new DeliveryStation("Bangalore", "Indiranagar", "Dhanush Gowda", "9857974212")
+        };
+
+        PackageInfo[] packages = new PackageInfo[10];
+        int pkgCount = 0;
+
+        int mainChoice;
+        do {
+            System.out.println("\n===== INVENTORY MANAGEMENT SYSTEM =====");
+            System.out.println("1. Inventory & Sales Module");
+            System.out.println("2. Packaging & Delivery Module");
+            System.out.println("0. Exit System");
+            System.out.print("Enter your choice: ");
+            mainChoice = sc.nextInt();
+            sc.nextLine();
+
+            switch (mainChoice) {
+                case 1: {
+                    int choice;
+                    if (product == null) {
+                        System.out.print("Enter Product ID: ");
+                        int id = sc.nextInt();
+                        sc.nextLine();
+                        System.out.print("Enter Product Name: ");
+                        String name = sc.nextLine();
+                        System.out.print("Enter Quantity: ");
+                        int qty = sc.nextInt();
+                        System.out.print("Enter Price: ");
+                        double price = sc.nextDouble();
+                        product = new Product(id, name, qty, price);
+                    }
+
+                    do {
+                        System.out.println("\n--- INVENTORY & SALES MENU ---");
+                        System.out.println("1. View Product");
+                        System.out.println("2. Make Sale");
+                        System.out.println("3. Give Feedback");
+                        System.out.println("4. View Feedback");
+                        System.out.println("5. Back to Main Menu");
+                        System.out.print("Enter choice: ");
+                        choice = sc.nextInt();
+
+                        switch (choice) {
+                            case 1:
+                                product.displayProduct();
+                                break;
+
+                            case 2:
+                                System.out.print("Enter quantity to sell: ");
+                                int sellQty = sc.nextInt();
+                                if (sellQty <= product.quantity) {
+                                    Sale sale = new Sale(product.productId, product.productName, product.quantity, product.price, sellQty);
+                                    product.quantity -= sellQty;
+                                    sale.displaySale();
+                                } else {
+                                    System.out.println("Not enough stock!");
+                                }
+                                break;
+
+                            case 3:
+                                sc.nextLine();
+                                System.out.print("Customer Name: ");
+                                String cname = sc.nextLine();
+                                System.out.print("Comment: ");
+                                String cmt = sc.nextLine();
+                                System.out.print("Rating (1-5): ");
+                                int rate = sc.nextInt();
+                                feedback = new Feedback(cname, cmt, rate);
+                                System.out.println("Feedback saved!");
+                                break;
+
+                            case 4:
+                                if (feedback != null) feedback.displayFeedback();
+                                else System.out.println("No feedback available.");
+                                break;
+
+                            case 5:
+                                System.out.println("Returning to Main Menu...");
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice!");
+                        }
+                    } while (choice != 5);
+                    break;
+                }
+
+                case 2: {
+                    int choice;
+                    do {
+                        System.out.println("\n===== PACKAGING & DELIVERY MENU =====");
+                        System.out.println("1. Add New Package");
+                        System.out.println("2. Update Packaging Status");
+                        System.out.println("3. Update Delivery Status & Station");
+                        System.out.println("4. Print Packaging Slip");
+                        System.out.println("5. View All Packages");
+                        System.out.println("6. View Station Details");
+                        System.out.println("7. Back to Main Menu");
+                        System.out.print("Enter your choice: ");
+                        choice = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (choice) {
+                            case 1:
+                                if (pkgCount < packages.length) {
+                                    System.out.print("Enter Package ID: ");
+                                    String id = sc.nextLine();
+                                    System.out.print("Enter Customer Name: ");
+                                    String name = sc.nextLine();
+                                    System.out.print("Enter Address: ");
+                                    String addr = sc.nextLine();
+                                    System.out.print("Enter Item Name: ");
+                                    String item = sc.nextLine();
+                                    packages[pkgCount++] = new PackageInfo(id, name, addr, item, stations[0]);
+                                    System.out.println("Package added successfully!");
+                                } else {
+                                    System.out.println("No more packages can be added.");
+                                }
+                                break;
+
+                            case 2:
+                                System.out.print("Enter Package ID: ");
+                                String pid = sc.nextLine();
+                                boolean found1 = false;
+                                for (int i = 0; i < pkgCount; i++) {
+                                    if (packages[i].packageId.equalsIgnoreCase(pid)) {
+                                        System.out.print("Enter new status (Packed/Dispatched): ");
+                                        String newStat = sc.nextLine();
+                                        packages[i].updatePackagingStatus(newStat);
+                                        found1 = true;
+                                    }
+                                }
+                                if (!found1) System.out.println("Package not found!");
+                                break;
+
+                            case 3:
+                                System.out.print("Enter Package ID: ");
+                                String did = sc.nextLine();
+                                boolean found2 = false;
+                                for (int i = 0; i < pkgCount; i++) {
+                                    if (packages[i].packageId.equalsIgnoreCase(did)) {
+                                        System.out.println("Select New Station [1-5]:");
+                                        for (int s = 0; s < stations.length; s++)
+                                            System.out.println((s + 1) + ". " + stations[s].stationName);
+                                        int st = sc.nextInt();
+                                        sc.nextLine();
+                                        System.out.print("Enter new delivery status: ");
+                                        String stat = sc.nextLine();
+                                        packages[i].updateDeliveryStatus(stat, stations[st - 1]);
+                                        found2 = true;
+                                    }
+                                }
+                                if (!found2) System.out.println("Package not found!");
+                                break;
+
+                            case 4:
+                                System.out.print("Enter Package ID: ");
+                                String sid = sc.nextLine();
+                                boolean found3 = false;
+                                for (int i = 0; i < pkgCount; i++) {
+                                    if (packages[i].packageId.equalsIgnoreCase(sid)) {
+                                        packages[i].printSlip();
+                                        found3 = true;
+                                    }
+                                }
+                                if (!found3) System.out.println("Package not found!");
+                                break;
+
+                            case 5:
+                                for (int i = 0; i < pkgCount; i++) packages[i].printSlip();
+                                break;
+
+                            case 6:
+                                for (DeliveryStation st : stations) st.displayStation();
+                                break;
+
+                            case 7:
+                                System.out.println("Returning to Main Menu...");
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice!");
+                        }
+                    } while (choice != 7);
+                    break;
+                }
+
+                case 0:
+                    System.out.println("Exiting System... Thank you!");
+                    break;
+
+                default:
+                    System.out.println("Invalid Option!");
+            }
+
+        } while (mainChoice != 0);
+
+        sc.close();
+    }
+}
