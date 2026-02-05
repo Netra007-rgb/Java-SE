@@ -1202,23 +1202,21 @@ class SalesFeedbackMain {
             } else if (choice == 2) {
                 manager.viewAllFeedback();
 
-            } else if (choice == 3) {
-                System.out.print("Enter Product ID: ");
-                int pid = sc.nextInt();
-                manager.viewAverageRating(pid);
+            } 
 
-            } else if (choice == 4) {
+             else if (choice == 3) {
                 System.out.println("Exiting Sales Feedback Module...");
 
             } else {
                 System.out.println("Invalid choice!");
             }
 
-        } while (choice != 4);
+        } while (choice != 3);
 
         sc.close();
     }
 }
+
 
 
 
