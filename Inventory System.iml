@@ -1061,4 +1061,164 @@ public class InventoryManagementSystem {
 
 
 
+//Code for Sales Feedback
+
+
+import java.util.Scanner;
+
+// ------------------ SalesFeedback Class ------------------
+class SalesFeedback {
+
+    private int feedbackId;
+    private int productId;
+    private String customerName;
+    private int rating;
+    private String comment;
+
+    public SalesFeedback(int feedbackId, int productId, String customerName, int rating, String comment) {
+        this.feedbackId = feedbackId;
+        this.productId = productId;
+        this.customerName = customerName;
+        this.rating = rating;
+        this.comment = comment;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void displayFeedback() {
+        System.out.println("Feedback ID: " + feedbackId);
+        System.out.println("Product ID: " + productId);
+        System.out.println("Customer Name: " + customerName);
+        System.out.println("Rating: " + rating);
+        System.out.println("Comment: " + comment);
+        System.out.println("----------------------------");
+    }
+}
+
+// ------------------ SalesFeedbackManager Class ------------------
+class SalesFeedbackManager {
+
+    private SalesFeedback[] feedbacks = new SalesFeedback[50];
+    private int count = 0;
+
+    public void addFeedback(SalesFeedback feedback) {
+        if (count < feedbacks.length) {
+            feedbacks[count] = feedback;
+            count++;
+            System.out.println("Feedback added successfully!");
+        } else {
+            System.out.println("Feedback storage is full!");
+        }
+    }
+
+    public void viewAllFeedback() {
+        if (count == 0) {
+            System.out.println("No feedback available.");
+            return;
+        }
+
+        for (int i = 0; i < count; i++) {
+            feedbacks[i].displayFeedback();
+        }
+    }
+
+    public void viewAverageRating(int productId) {
+        int total = 0;
+        int number = 0;
+
+        for (int i = 0; i < count; i++) {
+            if (feedbacks[i].getProductId() == productId) {
+                total += feedbacks[i].getRating();
+                number++;
+            }
+        }
+
+        if (number == 0) {
+            System.out.println("No feedback for this product.");
+        } else {
+            double average = (double) total / number;
+            System.out.println("Average Rating for Product " + productId + ": " + average);
+        }
+    }
+}
+
+// ------------------ Main Class ------------------
+class SalesFeedbackMain {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        SalesFeedbackManager manager = new SalesFeedbackManager();
+        int choice;
+
+        do {
+            System.out.println("\n--- Sales Feedback Menu ---");
+            System.out.println("1. Add Feedback");
+            System.out.println("2. View All Feedback");
+            System.out.println("3. View Average Rating");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Enter Feedback ID: ");
+                int fid = sc.nextInt();
+
+                System.out.print("Enter Product ID: ");
+                int pid = sc.nextInt();
+
+                sc.nextLine();
+                System.out.print("Enter Customer Name: ");
+                String name = sc.nextLine();
+
+                System.out.print("Enter Rating (1-5): ");
+                int rating = sc.nextInt();
+                boolean b=true;
+                while(b){
+                    if(rating>5 || rating<0){
+                        System.out.println("Enter correct rating between 1 to 5.")
+                        rating=sc.nextInt();
+                    }
+                    else{
+                        b=false;
+                    }
+                }
+
+                sc.nextLine();
+                System.out.print("Enter Comment: ");
+                String comment = sc.nextLine();
+
+                SalesFeedback feedback =
+                        new SalesFeedback(fid, pid, name, rating, comment);
+
+                manager.addFeedback(feedback);
+
+            } else if (choice == 2) {
+                manager.viewAllFeedback();
+
+            } else if (choice == 3) {
+                System.out.print("Enter Product ID: ");
+                int pid = sc.nextInt();
+                manager.viewAverageRating(pid);
+
+            } else if (choice == 4) {
+                System.out.println("Exiting Sales Feedback Module...");
+
+            } else {
+                System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 4);
+
+        sc.close();
+    }
+}
+
+
 
