@@ -1673,6 +1673,16 @@ public class Main2 {
                                 String cmt = sc.nextLine();
                                 System.out.print("Rating (1-5): ");
                                 int rate = sc.nextInt();
+                                boolean b=true;
+                                while(b){
+                                    if(rate>5 || rate<0){
+                                        System.out.println("Enter rating between 1 to 5");
+                                        rate=sc.nextInt();
+                                    }
+                                    else{
+                                        b=false;
+                                    }
+                                }
                                 feedback = new Feedback(cname, cmt, rate);
                                 System.out.println("Feedback saved!");
                                 break;
@@ -1717,3 +1727,4 @@ public class Main2 {
         }while(mainChoice!=0);
     }
 }
+
