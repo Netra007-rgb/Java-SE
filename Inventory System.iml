@@ -1839,7 +1839,7 @@ class Feedback {
 }
 
 //-------------------- Simple Product and Sale Classes --------------------//
-class SimpleProduct {
+/*class SimpleProduct {
     int productId;
     String productName;
     int quantity;
@@ -1856,9 +1856,9 @@ class SimpleProduct {
         System.out.printf("%-5s %-15s %-5s %-8s%n", "ID", "Product", "Qty", "Price");
         System.out.printf("%-5d %-15s %-5d %-8.2f%n", productId, productName, quantity, price);
     }*/
-}
+}*/
 
-class Sale extends SimpleProduct {
+/*class Sale extends SimpleProduct {
     int soldQty;
     double totalAmount;
 
@@ -1873,7 +1873,7 @@ class Sale extends SimpleProduct {
         System.out.println("Quantity Sold: " + soldQty);
         System.out.println("Total Amount: ₹" + totalAmount);
     }
-}
+}*/
 
 //-------------------- Advanced Product System (Clothing Store) --------------------//
 class Product {
@@ -2015,7 +2015,7 @@ class SaleRecord {
 }
 
 
-class Order
+/*class Order
 {
     public void placeOrder(Product product, int quantity) {
         if (product.reduceStock(quantity)) {
@@ -2027,7 +2027,7 @@ class Order
             System.out.println("Order failed: Insufficient stock.");
         }
     }
-}
+}*/
 
 //-------------------- MAIN SYSTEM --------------------//
 public class Main2 {
@@ -2058,7 +2058,7 @@ public class Main2 {
         Scanner sc = new Scanner(System.in);
 
         // For Sales & Feedback
-        SimpleProduct simpleProduct = null;
+        //SimpleProduct simpleProduct = null;
         Feedback feedback = null;
         ArrayList<SaleRecord> salesToday = new ArrayList<>();
 
@@ -2074,7 +2074,7 @@ public class Main2 {
 
         // Clothing inventory
         Inventory inventory = new Inventory();
-        Order order = new Order();
+        //Order order = new Order();
         int mainChoice;
         do {
             System.out.println("\n===== INVENTORY MANAGEMENT SYSTEM =====");
@@ -2369,4 +2369,3 @@ public class Main2 {
         }while(mainChoice!=0);
     }
 }
-
